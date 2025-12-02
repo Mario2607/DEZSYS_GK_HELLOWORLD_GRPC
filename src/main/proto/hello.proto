@@ -2,6 +2,7 @@ syntax = "proto3";
 
 service HelloWorldService {
   rpc hello(HelloRequest) returns (HelloResponse) {}
+  rpc sendWarehouseData (WarehouseData) returns (WarehouseResponse);
 }
 
 message HelloRequest {
@@ -11,4 +12,26 @@ message HelloRequest {
 
 message HelloResponse {
   string text = 1;
+}
+
+message ProductData {
+  string productId = 1;
+  string productName = 2;
+  string productCategory = 3;
+  int32 productQuantity = 4;
+  string productUnit = 5;
+}
+
+message WarehouseData {
+  string warehouseID = 1;
+  string warehouseName = 2;
+  string warehouseCountry = 4;
+  string warehouseCity = 5;
+  string warehouseAddress = 6;
+  int32 warehousePostalCode = 7;
+  repeated ProductData productData = 8;
+}
+
+message WarehouseResponse {
+  WarehouseData data = 1;
 }

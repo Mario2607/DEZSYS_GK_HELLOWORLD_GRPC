@@ -13,12 +13,35 @@ public class HelloWorldClient {
                 .build();
 
         HelloWorldServiceGrpc.HelloWorldServiceBlockingStub stub = HelloWorldServiceGrpc.newBlockingStub(channel);
+        Hello.ProductData product1 = Hello.ProductData.newBuilder()
+                .setProductId("00-443175")
+                .setProductName("Bio Orangensaft Sonne")
+                .setProductCategory("Getraenk")
+                .setProductQuantity(1500)
+                .setProductUnit("Packung 1L")
+                .build();
 
-        Hello.HelloResponse helloResponse = stub.hello(Hello.HelloRequest.newBuilder()
-                .setFirstname(firstname)
-                .setLastname(lastname)
-                .build());
-        System.out.println( helloResponse.getText() );
+        Hello.ProductData product2 = Hello.ProductData.newBuilder()
+                .setProductId("02-341867")
+                .setProductName("Milka Tafel")
+                .setProductCategory("Sueßigkeit")
+                .setProductQuantity(1000)
+                .setProductUnit("Packung 500g")
+                .build();
+
+        Hello.WarehouseData warehouse = Hello.WarehouseData.newBuilder()
+                .setWarehouseID("001")
+                .setWarehouseName("Linz Bahnhof")
+                .setWarehouseAddress("Bahnhofpl. 3-6")
+                .setWarehouseCity("Linz")
+                .setWarehouseCountry("Österreich")
+                .setWarehousePostalCode(4020)
+                .addProductData(product1)
+                .addProductData(product2)
+                .build();
+
+        stub.sendWarehouseData(warehouse);
+        System.out.println("Send information of Warehouse data");
         channel.shutdown();
 
     }

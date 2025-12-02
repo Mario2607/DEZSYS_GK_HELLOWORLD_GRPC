@@ -27,10 +27,7 @@ public class HelloWorldServiceImpl extends HelloWorldServiceGrpc.HelloWorldServi
         System.out.println("Produkte:");
 
         for (Hello.ProductData p : request.getProductDataList()) {
-            System.out.println("- " + p.getProductName() +
-                    " | Kategorie: " + p.getProductCategory() +
-                    " | Menge: " + p.getProductQuantity() +
-                    " | Einheit: " + p.getProductUnit());
+            System.out.println("- " + p.getProductName() + " | Kategorie: " + p.getProductCategory() + " | Menge: " + p.getProductQuantity() + " | Einheit: " + p.getProductUnit());
         }
         Hello.WarehouseResponse response = Hello.WarehouseResponse.newBuilder().build();
 

@@ -1,11 +1,12 @@
 import sys
 import grpc
 
-import hello_pb2 as hello_pb2
-import hello_pb2_grpc as hello_pb2_grpc
+import hello_pb2
+import hello_pb2_grpc
 
 
 def main():
+    print("Hello World!")
     firstname = sys.argv[1] if len(sys.argv) > 1 else "Max"
     lastname = sys.argv[2] if len(sys.argv) > 2 else "Mustermann"
 
@@ -21,20 +22,20 @@ def main():
         print()
 
         # ---- NEW: PRODUCTS ----
-        p1 = hello_pb2.Product(
-            productID="00-443175",
+        p1 = hello_pb2.ProductData(
+            productId="00-443175",
             productName="Bio Orangensaft Sonne",
             productCategory="Getraenk",
             productQuantity=1500,
-            productUnity="Packung 1L"
+            productUnit="Packung 1L"
         )
 
-        p2 = hello_pb2.Product(
-            productID="02-341867",
+        p2 = hello_pb2.ProductData(
+            productId="02-341867",
             productName="Milka Tafel",
-            productCategory="Sueßigkeit",
+            productCategory="Süßigkeit",
             productQuantity=1000,
-            productUnity="Tafel 500g"
+            productUnit="Tafel 500g"
         )
 
         # ---- NEW: WAREHOUSE ----
@@ -45,18 +46,15 @@ def main():
             warehousePostalCode=4020,
             warehouseCity="Linz",
             warehouseCountry="Österreich",
-            products=[p1, p2]
+            productData=[p1, p2]
         )
 
         # ---- SEND RPC ----
-        ack = stub.sendWarehouseData(warehouse_data)
-        print("Server says:", ack.status)
+        stub.sendWarehouseData(warehouse_data)
+        print("Server returned a WarehouseResponse")
         print()
 
-
-
         # ---- FULL ATTRIBUTE OUTPUT ----
-        print("=== FULL DATA SENT (Client-side) ===")
         print("WarehouseID:       ", warehouse_data.warehouseID)
         print("WarehouseName:     ", warehouse_data.warehouseName)
         print("Address:           ", warehouse_data.warehouseAddress)
@@ -66,15 +64,15 @@ def main():
         print()
 
         print("Products:")
-        for product in warehouse_data.products:
+        for product in warehouse_data.productData:
             print("  ------------------------------")
-            print("  ProductID:      ", product.productID)
+            print("  ProductID:      ", product.productId)
             print("  Name:           ", product.productName)
             print("  Category:       ", product.productCategory)
             print("  Quantity:       ", product.productQuantity)
-            print("  Unity:          ", product.productUnity)
+            print("  Unit:           ", product.productUnit)
         print("  ------------------------------\n")
 
 
-if __name__ == "_main_":
+if __name__ == "__main__":
     main()
